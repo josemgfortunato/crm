@@ -1,0 +1,86 @@
+<?php
+//conectando a base de dados...
+include "Connections/conecta_banco.php";
+
+//Pegando os valores digitados no formulario de cadastro de clientes e armazenando em arrays super globais
+$ID_VALOR_JURIDICO 				= isset($_POST['ID_VALOR_JURIDICO']) ? $_POST['ID_VALOR_JURIDICO'] : '';
+
+$VALOR_JURIDICO_USER			 	= isset($_POST['VALOR_JURIDICO_USER']) ? $_POST['VALOR_JURIDICO_USER'] : '';
+$VALOR_JURIDICO_STATUS 			= isset($_POST['VALOR_JURIDICO_STATUS']) ? $_POST['VALOR_JURIDICO_STATUS'] : '';
+$VALOR_JURIDICO_ENTR_PARC 			= isset($_POST['VALOR_JURIDICO_ENTR_PARC']) ? $_POST['VALOR_JURIDICO_ENTR_PARC'] : '';
+$VALOR_JURIDICO_TIPO 				= isset($_POST['VALOR_JURIDICO_TIPO']) ? $_POST['VALOR_JURIDICO_TIPO'] : '';
+$VALOR_JURIDICO_LEADS 				= isset($_POST['VALOR_JURIDICO_LEADS']) ? $_POST['VALOR_JURIDICO_LEADS'] : '';
+$VALOR_JURIDICO_FICHA 				= isset($_POST['VALOR_JURIDICO_FICHA']) ? $_POST['VALOR_JURIDICO_FICHA'] : '';
+
+$VALOR_JURIDICO_VALOR 				= isset($_POST['VALOR_JURIDICO_VALOR']) ? $_POST['VALOR_JURIDICO_VALOR'] : '';
+$val_valor_contr_valor = str_replace(".","", $VALOR_JURIDICO_VALOR);
+$val_valor_contr_valor = str_replace(",",".", $val_valor_contr_valor);
+
+$VALOR_JURIDICO_QTDE_VEZES			= isset($_POST['VALOR_JURIDICO_QTDE_VEZES']) ? $_POST['VALOR_JURIDICO_QTDE_VEZES'] : '';
+$VALOR_JURIDICO_PARCELA 			= isset($_POST['VALOR_JURIDICO_PARCELA']) ? $_POST['VALOR_JURIDICO_PARCELA'] : '';
+
+$VALOR_JURIDICO_DATA_PGTO 			= isset($_POST['VALOR_JURIDICO_DATA_PGTO']) ? $_POST['VALOR_JURIDICO_DATA_PGTO'] : '';
+if($VALOR_JURIDICO_DATA_PGTO > '')	{
+$VALOR_JURIDICO_DATA_PGTO_DIA = substr($VALOR_JURIDICO_DATA_PGTO, 0, 2);
+$VALOR_JURIDICO_DATA_PGTO_MES = substr($VALOR_JURIDICO_DATA_PGTO, 3, 2);
+$VALOR_JURIDICO_DATA_PGTO_ANO = substr($VALOR_JURIDICO_DATA_PGTO, 6, 4);
+$VALOR_JURIDICO_DATA_PGTO = $VALOR_JURIDICO_DATA_PGTO_ANO.'/'.$VALOR_JURIDICO_DATA_PGTO_MES.'/'.$VALOR_JURIDICO_DATA_PGTO_DIA;
+} else	{
+	$VALOR_JURIDICO_DATA_PGTO = '0000/00/00';
+}
+
+
+$VALOR_JURIDICO_OBS 				= isset($_POST['VALOR_JURIDICO_OBS']) ? $_POST['VALOR_JURIDICO_OBS'] : '';
+
+$F_USER_REGISTRO = $_POST['F_USER_REGISTRO'];
+$DATA_CADATRO = date("d/m/Y");
+$HORA_CADASTRO = date("H:i");
+$IP_CADASTRO = $_SERVER['REMOTE_ADDR'];
+
+//$F_USER_ULT_ALTERACAO = $_POST['F_USER_REGISTRO'];
+//$DATA_ULT_ALTERACAO = date("d/m/Y");
+//$HORA_ULT_ALTERACAO = date("H:i");
+//$IP_ULT_ALTERACAO = $_SERVER['REMOTE_ADDR'];
+
+$F_USER_ULT_ALTERACAO = '';
+$DATA_ULT_ALTERACAO = '';
+$HORA_ULT_ALTERACAO = '';
+$IP_ULT_ALTERACAO = '';
+
+
+
+
+$val_valor_contr_valor = $val_valor_contr_valor / $VALOR_JURIDICO_QTDE_VEZES;
+$VALOR_JURIDICO_VALOR_PARCELA = number_format($val_valor_contr_valor, 2, ',', '.');
+
+
+//$primeira_data = $VALOR_JURIDICO_DATA_PGTO;
+//$valores = range( 1 , $VALOR_JURIDICO_QTDE_VEZES);
+//for ( $i = 0, $total = count( $valores ); $i < $total; $i++ )
+//{
+
+//echo $i;
+//echo "<BR>";
+//$VALOR_JURIDICO_DATA_PGTO = date('Y/m/d', strtotime('+'.$i.' months', strtotime($VALOR_JURIDICO_DATA_PGTO)));
+//echo "<BR>";
+//$VALOR_JURIDICO_PARCELA = ($i + 1).'/'.$VALOR_JURIDICO_QTDE_VEZES;
+//echo "<BR>";
+
+
+//inserindo informoçoes na base...
+mysqli_query ($conexao,"INSERT INTO tb_valor_juridico_laudo (ID_VALOR_JURIDICO, VALOR_JURIDICO_USER, VALOR_JURIDICO_STATUS, VALOR_JURIDICO_ENTR_PARC, VALOR_JURIDICO_TIPO, VALOR_JURIDICO_LEADS, VALOR_JURIDICO_FICHA, VALOR_JURIDICO_VALOR, VALOR_JURIDICO_QTDE_VEZES, VALOR_JURIDICO_PARCELA, VALOR_JURIDICO_DATA_PGTO, VALOR_JURIDICO_VALOR_PARCELA, VALOR_JURIDICO_OBS, F_USER_REGISTRO, DATA_CADATRO, HORA_CADASTRO, IP_CADASTRO, F_USER_ULT_ALTERACAO, DATA_ULT_ALTERACAO, HORA_ULT_ALTERACAO, IP_ULT_ALTERACAO) VALUES (null, '$VALOR_JURIDICO_USER', '$VALOR_JURIDICO_STATUS', '$VALOR_JURIDICO_ENTR_PARC', '$VALOR_JURIDICO_TIPO', '$VALOR_JURIDICO_LEADS', '$VALOR_JURIDICO_FICHA', '$VALOR_JURIDICO_VALOR', '$VALOR_JURIDICO_QTDE_VEZES', '$VALOR_JURIDICO_PARCELA', '$VALOR_JURIDICO_DATA_PGTO', '$VALOR_JURIDICO_VALOR_PARCELA', '$VALOR_JURIDICO_OBS', '$F_USER_REGISTRO', '$DATA_CADATRO', '$HORA_CADASTRO', '$IP_CADASTRO', '$F_USER_ULT_ALTERACAO', '$DATA_ULT_ALTERACAO', '$HORA_ULT_ALTERACAO', '$IP_ULT_ALTERACAO')");
+//if (mysqli_affected_rows ($conexao)>0);
+
+
+
+//$VALOR_JURIDICO_DATA_PGTO = $primeira_data;
+//}
+
+
+
+?>
+<script language="javascript">
+<!-- Caso a condição acima seja verdadeira o script abaiso será execultado-->
+//alert ('Dados cadastrado com sucesso!');
+location.href = 'laudo-juridico-pagamento.php?ID_LEADS=<?php echo $VALOR_JURIDICO_LEADS; ?>';
+</script>
